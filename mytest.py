@@ -8,7 +8,7 @@ import os
 K.clear_session()
 
 
-weights = '/home/dissana8/TOG/model_weights/SSD512.h5'  # TODO: Change this path to the victim model's weights
+weights = './model_weights/SSD512.h5'  # TODO: Change this path to the victim model's weights
 
 detector = SSD512(weights=weights)
 
