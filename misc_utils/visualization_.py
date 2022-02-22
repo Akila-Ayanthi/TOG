@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def visualize_detections(detections_dict, file_name):
+def visualize_detections(detections_dict):
     colors = plt.cm.hsv(np.linspace(0, 1, 21)).tolist()
     plt.clf()
     plt.figure(figsize=(3 * len(detections_dict), 3))
@@ -25,4 +25,4 @@ def visualize_detections(detections_dict, file_name):
                 plt.Rectangle((xmin, ymin), xmax - xmin, ymax - ymin, color=color, fill=False, linewidth=2))
             current_axis.text(xmin, ymin, label, size='small', color='black', bbox={'facecolor': color, 'alpha': 1.0})
         plt.axis('off')
-    plt.savefig(file_name)
+    plt.show()
