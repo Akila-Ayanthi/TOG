@@ -17,7 +17,7 @@ eps = 8 / 255.       # Hyperparameter: epsilon in L-inf norm
 eps_iter = 2 / 255.  # Hyperparameter: attack learning rate
 n_iter = 10          # Hyperparameter: number of attack iterations
 
-fpath = '~/LAB/Visor/'
+fpath = '/home/dissana8/LAB/Visor/'
 
 for path, subdirs, files in os.walk(fpath):
     for name in files:
