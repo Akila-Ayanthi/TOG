@@ -24,7 +24,7 @@ K.clear_session()
 # You can download the pretrained weights here [[link]](https://www.dropbox.com/s/rx3r15fg8h1jl8v/YOLOv3_Darknet53.h5?dl=0) or use the popular repository implementing YOLOv3 in Keras [[link]](https://github.com/qqwweee/keras-yolo3) to train your own model. Once you have downloaded or trained the YOLOv3 detector, you need to *modify* the path in the cell below to point to the `.h5` file. 
 
 # %%
-weights = './model_weights/YOLOv3_Darknet53.h5'  # TODO: Change this path to the victim model's weights
+weights = '/home/dissana8/TOG/model_weights/YOLOv3_Darknet53.h5'  # TODO: Change this path to the victim model's weights
 # weights = '/research/projects/robust-object-detection/model_weights/YOLOv3_VOC0712_Darknet53.h5'  # TODO: Change this path to the victim model's weights
 
 detector = YOLOv3_Darknet53(weights=weights)
