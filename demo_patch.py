@@ -104,7 +104,6 @@ for epoch in range(NUM_EPOCHS):
         detections_target = detections_nat.copy()
         for _, _, (xmin, ymin, xmax, ymax), did in rois:
             x_adv[:, ymin:ymax, xmin:xmax, :] = patch
-            print(x_adv)
 
         # Compute gradients
         grad, loss = detector.compute_object_vanishing_gradient_and_loss(x_adv, detections=detections_target)
