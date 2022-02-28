@@ -49,12 +49,13 @@ TARGET_CLASS = 'chair'
 
 # fpaths_train = [os.path.join(ROOT_TRAIN, fname) for fname in os.listdir(ROOT_TRAIN)]
 
+fpaths_train=[]
 for path, subdirs, files in os.walk(ROOT_TRAIN):
-    # for name in files:
-    print(files)
+    for name in files:
+        fpaths_train.append(name)
 
 
-# print(fpaths_train)
+print(fpaths_train)
 # fpaths_test = [os.path.join(ROOT_TEST, fname) for fname in os.listdir(ROOT_TEST)]
 
 # %% [markdown]
