@@ -52,7 +52,7 @@ TARGET_CLASS = 'chair'
 fpaths_train=[]
 for path, subdirs, files in os.walk(ROOT_TRAIN):
     for name in files:
-        fpaths_train.append(os.path.join(ROOT_TRAIN, name))
+        fpaths_train.append(os.path.join(path, name))
 
 
 print(fpaths_train)
