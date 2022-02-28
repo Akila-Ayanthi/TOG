@@ -89,15 +89,14 @@ for epoch in range(NUM_EPOCHS):
         # print(fpath)
         # Preprocess input images
         input_img = Image.open(fpath)
-        print(input_img)
-        break
-        # x_nat, x_bbox = letterbox_image_padded(input_img, size=detector.model_img_size)
+        x_nat, x_bbox = letterbox_image_padded(input_img, size=detector.model_img_size)
 
-        # # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
-        # detections_nat = detector.detect(x_nat)
-#         rois = extract_roi(detections_nat, detector.classes.index(SOURCE_CLASS), x_bbox, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
-#         if len(rois) == 0:
-#             continue
+        # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
+        detections_nat = detector.detect(x_nat)
+        print(detections_nat)
+        # rois = extract_roi(detections_nat, detector.classes.index(SOURCE_CLASS), x_bbox, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
+        # if len(rois) == 0:
+            # continue
 
 #         # Apply adversarial patch to each of the rois
 #         x_adv = x_nat.copy()
