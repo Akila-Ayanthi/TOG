@@ -48,6 +48,7 @@ SOURCE_CLASS = 'person'
 TARGET_CLASS = 'chair'
 
 fpaths_train = [os.path.join(ROOT_TRAIN, fname) for fname in os.listdir(ROOT_TRAIN)]
+print(fpaths_train)
 # fpaths_test = [os.path.join(ROOT_TEST, fname) for fname in os.listdir(ROOT_TEST)]
 
 # %% [markdown]
@@ -57,55 +58,55 @@ fpaths_train = [os.path.join(ROOT_TRAIN, fname) for fname in os.listdir(ROOT_TRA
 # We first initialize the adversarial patch randomly and prepare the output directory.
 
 # %%
-patch = np.full(shape=(1, *PATCH_SIZE, 3), fill_value=0.50)
-min_loss = np.float('inf')
-tolerance = 0
-lr = LR_INIT
+# patch = np.full(shape=(1, *PATCH_SIZE, 3), fill_value=0.50)
+# min_loss = np.float('inf')
+# tolerance = 0
+# lr = LR_INIT
 
-output_folder = os.path.join(ROOT_OUTPUT, 'vanishing',
-                             '%s_%s' % (datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S"), SOURCE_CLASS))
-os.makedirs(output_folder)
+# output_folder = os.path.join(ROOT_OUTPUT, 'vanishing',
+#                              '%s_%s' % (datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S"), SOURCE_CLASS))
+# os.makedirs(output_folder)
 
-# %% [markdown]
-# We then start running the training for `NUM_EPOCHS` epochs, where each epoch ends with evaluation to monitor the learning process.
+# # %% [markdown]
+# # We then start running the training for `NUM_EPOCHS` epochs, where each epoch ends with evaluation to monitor the learning process.
 
-# %%
-for epoch in range(NUM_EPOCHS):
-    ####################################################################################################################
-    # Training
-    ####################################################################################################################
-    epoch_loss = []
-    batch_grad, batch_loss = [], []
-    np.random.shuffle(fpaths_train)
-    for fpath in tqdm(fpaths_train):
-        # Preprocess input images
-        input_img = Image.open(fpath)
-        x_nat, x_bbox = letterbox_image_padded(input_img, size=detector.model_img_size)
+# # %%
+# for epoch in range(NUM_EPOCHS):
+#     ####################################################################################################################
+#     # Training
+#     ####################################################################################################################
+#     epoch_loss = []
+#     batch_grad, batch_loss = [], []
+#     np.random.shuffle(fpaths_train)
+#     for fpath in tqdm(fpaths_train):
+#         # Preprocess input images
+#         input_img = Image.open(fpath)
+#         x_nat, x_bbox = letterbox_image_padded(input_img, size=detector.model_img_size)
 
-        # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
-        detections_nat = detector.detect(x_nat)
-        rois = extract_roi(detections_nat, detector.classes.index(SOURCE_CLASS), x_bbox, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
-        if len(rois) == 0:
-            continue
+#         # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
+#         detections_nat = detector.detect(x_nat)
+#         rois = extract_roi(detections_nat, detector.classes.index(SOURCE_CLASS), x_bbox, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
+#         if len(rois) == 0:
+#             continue
 
-        # Apply adversarial patch to each of the rois
-        x_adv = x_nat.copy()
-        detections_target = detections_nat.copy()
-        for _, _, (xmin, ymin, xmax, ymax), did in rois:
-            x_adv[:, ymin:ymax, xmin:xmax, :] = patch
+#         # Apply adversarial patch to each of the rois
+#         x_adv = x_nat.copy()
+#         detections_target = detections_nat.copy()
+#         for _, _, (xmin, ymin, xmax, ymax), did in rois:
+#             x_adv[:, ymin:ymax, xmin:xmax, :] = patch
 
-        # Compute gradients
-        grad, loss = detector.compute_object_vanishing_gradient_and_loss(x_adv, detections=detections_target)
+#         # Compute gradients
+#         grad, loss = detector.compute_object_vanishing_gradient_and_loss(x_adv, detections=detections_target)
 
-        # Clip gradients to the area where the adversarial patch is located
-        grad = np.mean([grad[:, ymin:ymax, xmin:xmax, :] for _, _, (xmin, ymin, xmax, ymax), _ in rois], axis=0)
-        batch_grad.append(grad)
-        batch_loss.append(loss)
+#         # Clip gradients to the area where the adversarial patch is located
+#         grad = np.mean([grad[:, ymin:ymax, xmin:xmax, :] for _, _, (xmin, ymin, xmax, ymax), _ in rois], axis=0)
+#         batch_grad.append(grad)
+#         batch_loss.append(loss)
 
-        if len(batch_loss) == BATCH_SIZE:  # Update the adversarial patch and log the loss over the mini-batch
-            patch = np.clip(patch - lr * np.mean(batch_grad, axis=0), 0.0, 1.0)
-            epoch_loss.append(np.mean(batch_loss))
-            batch_grad, batch_loss = [], []
+#         if len(batch_loss) == BATCH_SIZE:  # Update the adversarial patch and log the loss over the mini-batch
+#             patch = np.clip(patch - lr * np.mean(batch_grad, axis=0), 0.0, 1.0)
+#             epoch_loss.append(np.mean(batch_loss))
+#             batch_grad, batch_loss = [], []
 
     # ####################################################################################################################
     # # Testing
