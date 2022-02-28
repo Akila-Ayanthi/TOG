@@ -56,8 +56,8 @@ for path, subdirs, files in os.walk(ROOT_TRAIN):
         fpaths.append(os.path.join(path, name))
 
 random.shuffle(fpaths)
-fpaths_train, fpaths_test = fpaths[:36000,:], fpaths[36000:,:]
-print(len(fpaths_train))
+# fpaths_train, fpaths_test = fpaths[:36000,:], fpaths[36000:,:]
+print(fpaths[10])
 # fpaths_test = [os.path.join(ROOT_TEST, fname) for fname in os.listdir(ROOT_TEST)]
 
 # %% [markdown]
