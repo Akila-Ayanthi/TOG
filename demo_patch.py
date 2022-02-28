@@ -18,6 +18,7 @@ from PIL import Image
 import numpy as np
 import datetime
 import os
+import random
 K.clear_session()
 
 # %% [markdown]
@@ -49,13 +50,14 @@ TARGET_CLASS = 'chair'
 
 # fpaths_train = [os.path.join(ROOT_TRAIN, fname) for fname in os.listdir(ROOT_TRAIN)]
 
-fpaths_train=[]
+fpaths=[]
 for path, subdirs, files in os.walk(ROOT_TRAIN):
     for name in files:
-        fpaths_train.append(os.path.join(path, name))
+        fpaths.append(os.path.join(path, name))
 
-
-print(fpaths_train)
+random.shuffle(fpaths)
+fpaths_train, fpaths_test = fpaths[:36000,:], fpaths[36000:,:]
+print(len(fpaths_train))
 # fpaths_test = [os.path.join(ROOT_TEST, fname) for fname in os.listdir(ROOT_TEST)]
 
 # %% [markdown]
