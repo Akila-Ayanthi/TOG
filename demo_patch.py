@@ -47,8 +47,14 @@ MIN_ROI_SIZE = PATCH_SIZE[0] * PATCH_SIZE[1] * 3
 SOURCE_CLASS = 'person'
 TARGET_CLASS = 'chair'
 
-fpaths_train = [os.path.join(ROOT_TRAIN, fname) for fname in os.listdir(ROOT_TRAIN)]
-print(fpaths_train)
+# fpaths_train = [os.path.join(ROOT_TRAIN, fname) for fname in os.listdir(ROOT_TRAIN)]
+
+for path, subdirs, files in os.walk(ROOT_TRAIN):
+    # for name in files:
+    print(files)
+
+
+# print(fpaths_train)
 # fpaths_test = [os.path.join(ROOT_TEST, fname) for fname in os.listdir(ROOT_TEST)]
 
 # %% [markdown]
