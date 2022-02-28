@@ -55,7 +55,7 @@ for path, subdirs, files in os.walk(ROOT_TRAIN):
         fpaths_train.append(os.path.join(path, name))
 
 
-print(len(fpaths_train))
+# print(len(fpaths_train))
 # fpaths_test = [os.path.join(ROOT_TEST, fname) for fname in os.listdir(ROOT_TEST)]
 
 # %% [markdown]
@@ -85,10 +85,12 @@ for epoch in range(NUM_EPOCHS):
     epoch_loss = []
     batch_grad, batch_loss = [], []
     np.random.shuffle(fpaths_train)
-    # for fpath in tqdm(fpaths_train):
+    for fpath in tqdm(fpaths_train):
         # print(fpath)
-        # # Preprocess input images
-        # input_img = Image.open(fpath)
+        # Preprocess input images
+        input_img = Image.open(fpath)
+        print(input_img)
+        break
         # x_nat, x_bbox = letterbox_image_padded(input_img, size=detector.model_img_size)
 
         # # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
