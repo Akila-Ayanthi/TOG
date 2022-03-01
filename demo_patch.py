@@ -181,7 +181,7 @@ for epoch in range(NUM_EPOCHS):
 # # # ## Testing TOG-vanishing Adversarial Patch
 
 # # # %%
-fpath = './assets/example_3.png'    # TODO: Change this path to the image to be attacked
+fpath = './assets/example_3.jpg'    # TODO: Change this path to the image to be attacked
 
 input_img = Image.open(fpath)
 x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
