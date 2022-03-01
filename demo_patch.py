@@ -204,9 +204,9 @@ for _, _, (xmin, ymin, xmax, ymax), did in rois:
     x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
 detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
 detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
-# visualize_detections({'Benign (No Attack)': (x_query, detections_query, detector.model_img_size, detector.classes),
-#                       'Random Patch': (x_rand, detections_rand, detector.model_img_size, detector.classes),
-#                       'TOG-vanishing Patch': (x_adv, detections_adv, detector.model_img_size, detector.classes)}, 'adv_example3.jpg')
+visualize_detections({'Benign (No Attack)': (x_query, detections_query, detector.model_img_size, detector.classes),
+                      'Random Patch': (x_rand, detections_rand, detector.model_img_size, detector.classes),
+                      'TOG-vanishing Patch': (x_adv, detections_adv, detector.model_img_size, detector.classes)}, 'adv_example3.jpg')
 
 
 # fpath = './assets/example_1.jpg'    # TODO: Change this path to the image to be attacked
