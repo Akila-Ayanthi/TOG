@@ -207,7 +207,7 @@ visualize_detections({'Benign (No Attack)': (x_query, detections_query, detector
                       'TOG-vanishing Patch': (x_adv, detections_adv, detector.model_img_size, detector.classes)}, 'adv_example3.jpg')
 
 
-fpath = './assets/example_1.png'    # TODO: Change this path to the image to be attacked
+fpath = './assets/example_1.jpg'    # TODO: Change this path to the image to be attacked
 
 input_img = Image.open(fpath)
 x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
