@@ -57,7 +57,7 @@ for path, subdirs, files in os.walk(ROOT_TRAIN):
             fpaths.append(os.path.join(path, name))
 
 random.shuffle(fpaths)
-fpaths_train, fpaths_test = fpaths[:100], fpaths[100:150]
+fpaths_train, fpaths_test = fpaths[:50], fpaths[50:75]
 # print(fpaths[:10])
 # fpaths_test = [os.path.join(ROOT_TEST, fname) for fname in os.listdir(ROOT_TEST)]
 
