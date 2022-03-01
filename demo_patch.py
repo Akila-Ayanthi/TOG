@@ -113,19 +113,19 @@ for epoch in range(NUM_EPOCHS):
         grad = np.mean([grad[:, ymin:ymax, xmin:xmax, :] for _, _, (xmin, ymin, xmax, ymax), _ in rois], axis=0)
         batch_grad.append(grad)
         batch_loss.append(loss)
+        print(len(batch_loss))
 
-        if len(batch_loss) == BATCH_SIZE:  # Update the adversarial patch and log the loss over the mini-batch
-            patch = np.clip(patch - lr * np.mean(batch_grad, axis=0), 0.0, 1.0)
-            epoch_loss.append(np.mean(batch_loss))
-            batch_grad, batch_loss = [], []
+        # if len(batch_loss) == BATCH_SIZE:  # Update the adversarial patch and log the loss over the mini-batch
+        #     patch = np.clip(patch - lr * np.mean(batch_grad, axis=0), 0.0, 1.0)
+        #     epoch_loss.append(np.mean(batch_loss))
+        #     batch_grad, batch_loss = [], []
 
 
     ####################################################################################################################
     # Testing
     ####################################################################################################################
     # Baseline = Random permutation of the adversarial patch (i.e., decorrelating pixels)
-    patch_rand = np.reshape(patch.copy(), newshape=(patch.shape[0]*patch.shape[1]*patch.shape[2], patch.shape[3]))
-    print(patch_rand)
+    # patch_rand = np.reshape(patch.copy(), newshape=(patch.shape[0]*patch.shape[1]*patch.shape[2], patch.shape[3]))
 #     np.random.shuffle(patch_rand)
 #     patch_rand = np.reshape(patch_rand, newshape=patch.shape)
 #     num_rois, score_adv, score_rand = 0, 0, 0
