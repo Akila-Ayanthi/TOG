@@ -37,7 +37,7 @@ detector = YOLOv3_Darknet53(weights=weights)
 ROOT_TRAIN = '/home/dissana8/LAB/Visor/'
 # ROOT_TEST = '/research/datasets/INRIAPerson/Test/pos'
 ROOT_OUTPUT = '/home/dissana8/TOG/Adv_images/'
-NUM_EPOCHS = 100
+NUM_EPOCHS = 25
 LR_INIT = 0.1
 LR_MULTIPLIER = 0.1
 BATCH_SIZE = 3
