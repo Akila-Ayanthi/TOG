@@ -116,7 +116,7 @@ for epoch in range(NUM_EPOCHS):
 
         if len(batch_loss) == BATCH_SIZE:  # Update the adversarial patch and log the loss over the mini-batch
             patch = np.clip(patch - lr * np.mean(batch_grad, axis=0), 0.0, 1.0)
-            print(patch)
+            # print(patch)
             epoch_loss.append(np.mean(batch_loss))
             batch_grad, batch_loss = [], []
 
@@ -136,7 +136,7 @@ for epoch in range(NUM_EPOCHS):
         # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
         detections_nat = detector.detect(x_nat)
         rois = extract_roi(detections_nat, detector.classes.index(SOURCE_CLASS), x_bbox, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
-        print("length of rois:", len(rois))
+        # print("length of rois:", len(rois))
         num_rois_x = len(rois)
         if num_rois_x == 0:
             continue
