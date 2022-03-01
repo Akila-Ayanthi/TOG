@@ -113,6 +113,7 @@ for epoch in range(NUM_EPOCHS):
         grad = np.mean([grad[:, ymin:ymax, xmin:xmax, :] for _, _, (xmin, ymin, xmax, ymax), _ in rois], axis=0)
         batch_grad.append(grad)
         batch_loss.append(loss)
+        print("batch_loss")
         print(len(batch_loss))
 
         # if len(batch_loss) == BATCH_SIZE:  # Update the adversarial patch and log the loss over the mini-batch
