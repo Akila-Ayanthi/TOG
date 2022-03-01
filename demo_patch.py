@@ -113,8 +113,6 @@ for epoch in range(NUM_EPOCHS):
         grad = np.mean([grad[:, ymin:ymax, xmin:xmax, :] for _, _, (xmin, ymin, xmax, ymax), _ in rois], axis=0)
         batch_grad.append(grad)
         batch_loss.append(loss)
-        print("batch_loss")
-        print(len(batch_loss))
 
         if len(batch_loss) == BATCH_SIZE:  # Update the adversarial patch and log the loss over the mini-batch
             patch = np.clip(patch - lr * np.mean(batch_grad, axis=0), 0.0, 1.0)
@@ -127,56 +125,57 @@ for epoch in range(NUM_EPOCHS):
     # Testing
     ####################################################################################################################
     # Baseline = Random permutation of the adversarial patch (i.e., decorrelating pixels)
-    # patch_rand = np.reshape(patch.copy(), newshape=(patch.shape[0]*patch.shape[1]*patch.shape[2], patch.shape[3]))
-#     np.random.shuffle(patch_rand)
-#     patch_rand = np.reshape(patch_rand, newshape=patch.shape)
-#     num_rois, score_adv, score_rand = 0, 0, 0
-#     for fpath in fpaths_test:
-#         input_img = Image.open(fpath)
-#         x_nat, x_bbox = letterbox_image_padded(input_img, size=detector.model_img_size)
+    patch_rand = np.reshape(patch.copy(), newshape=(patch.shape[0]*patch.shape[1]*patch.shape[2], patch.shape[3]))
+    np.random.shuffle(patch_rand)
+    patch_rand = np.reshape(patch_rand, newshape=patch.shape)
+    num_rois, score_adv, score_rand = 0, 0, 0
+    for fpath in fpaths_test:
+        input_img = Image.open(fpath)
+        x_nat, x_bbox = letterbox_image_padded(input_img, size=detector.model_img_size)
 
-#         # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
-#         detections_nat = detector.detect(x_nat)
-#         rois = extract_roi(detections_nat, detector.classes.index(SOURCE_CLASS), x_bbox, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
-#         num_rois_x = len(rois)
-#         if num_rois_x == 0:
-#             continue
+        # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
+        detections_nat = detector.detect(x_nat)
+        rois = extract_roi(detections_nat, detector.classes.index(SOURCE_CLASS), x_bbox, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
+        print("length of rois:", len(rois))
+        num_rois_x = len(rois)
+        if num_rois_x == 0:
+            continue
 
-#         x_adv, x_rand = x_nat.copy(), x_nat.copy()
-#         for _, _, (xmin, ymin, xmax, ymax), _ in rois:
-#             x_adv[:, ymin:ymax, xmin:xmax, :] = patch
-#             x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
-#         detections_adv = detector.detect(x_adv)
-#         detections_rand = detector.detect(x_rand)
+        x_adv, x_rand = x_nat.copy(), x_nat.copy()
+        for _, _, (xmin, ymin, xmax, ymax), _ in rois:
+            x_adv[:, ymin:ymax, xmin:xmax, :] = patch
+            x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
+        detections_adv = detector.detect(x_adv)
+        detections_rand = detector.detect(x_rand)
 
-#         score_adv_x, score_rand_x = evaluate_vanishing_patch(detector.classes.index(SOURCE_CLASS), rois, detections_adv, detections_rand)
-#         score_adv += score_adv_x
-#         score_rand += score_rand_x
-#         num_rois += num_rois_x
+        score_adv_x, score_rand_x = evaluate_vanishing_patch(detector.classes.index(SOURCE_CLASS), rois, detections_adv, detections_rand)
+        score_adv += score_adv_x
+        score_rand += score_rand_x
+        num_rois += num_rois_x
 
-#     # Compute training statistics
-#     epoch_loss = float(np.mean(epoch_loss))
-#     ASR_TOG = score_adv / num_rois
-#     ASR_Rand = score_rand / num_rois
+    # Compute training statistics
+    epoch_loss = float(np.mean(epoch_loss))
+    ASR_TOG = score_adv / num_rois
+    ASR_Rand = score_rand / num_rois
 
-#     # Save the adversarial patch
-#     np.save(os.path.join(output_folder, 'Epoch-%d_Loss-%.2f_ASR-%.2f.npy' % (epoch, epoch_loss, ASR_TOG)), patch)
+    # Save the adversarial patch
+    np.save(os.path.join(output_folder, 'Epoch-%d_Loss-%.2f_ASR-%.2f.npy' % (epoch, epoch_loss, ASR_TOG)), patch)
 
-#     # Monitor training loss for learning rate scheduling
-#     if epoch_loss > min_loss - TOLERANCE_DELTA:
-#         tolerance += 1
-#         if tolerance >= TOLERANCE_MAX:
-#             lr *= LR_MULTIPLIER
-#             tolerance = 0
-#     else:
-#         tolerance = 0
-#     min_loss = min(min_loss, epoch_loss)
+    # Monitor training loss for learning rate scheduling
+    if epoch_loss > min_loss - TOLERANCE_DELTA:
+        tolerance += 1
+        if tolerance >= TOLERANCE_MAX:
+            lr *= LR_MULTIPLIER
+            tolerance = 0
+    else:
+        tolerance = 0
+    min_loss = min(min_loss, epoch_loss)
 
-#     # Print training progress
-#     print('[Epoch %d] LR: %f | Tol: %d/%d | Min. Loss: %.4f' % (epoch, lr, tolerance + 1, TOLERANCE_MAX, min_loss))
-#     print('  > Loss      : %.4f' % epoch_loss)
-#     print('  > ASR (TOG) : %d/%d = %.2f' % (score_adv, num_rois, ASR_TOG))
-#     print('  > ASR (Rand): %d/%d = %.2f' % (score_rand, num_rois, ASR_Rand))
+    # Print training progress
+    print('[Epoch %d] LR: %f | Tol: %d/%d | Min. Loss: %.4f' % (epoch, lr, tolerance + 1, TOLERANCE_MAX, min_loss))
+    print('  > Loss      : %.4f' % epoch_loss)
+    print('  > ASR (TOG) : %d/%d = %.2f' % (score_adv, num_rois, ASR_TOG))
+    print('  > ASR (Rand): %d/%d = %.2f' % (score_rand, num_rois, ASR_Rand))
 
 # # # %% [markdown]
 # # # ## Testing TOG-vanishing Adversarial Patch
