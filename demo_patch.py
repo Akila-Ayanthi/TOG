@@ -40,7 +40,7 @@ ROOT_OUTPUT = '/home/dissana8/TOG/Adv_images/'
 NUM_EPOCHS = 10
 LR_INIT = 0.1
 LR_MULTIPLIER = 0.1
-BATCH_SIZE = 8
+BATCH_SIZE = 3
 TOLERANCE_MAX = 5
 TOLERANCE_DELTA = 0.01
 PATCH_SIZE = (64, 64)
@@ -116,10 +116,11 @@ for epoch in range(NUM_EPOCHS):
         print("batch_loss")
         print(len(batch_loss))
 
-        # if len(batch_loss) == BATCH_SIZE:  # Update the adversarial patch and log the loss over the mini-batch
-        #     patch = np.clip(patch - lr * np.mean(batch_grad, axis=0), 0.0, 1.0)
-        #     epoch_loss.append(np.mean(batch_loss))
-        #     batch_grad, batch_loss = [], []
+        if len(batch_loss) == BATCH_SIZE:  # Update the adversarial patch and log the loss over the mini-batch
+            patch = np.clip(patch - lr * np.mean(batch_grad, axis=0), 0.0, 1.0)
+            print(patch)
+            epoch_loss.append(np.mean(batch_loss))
+            batch_grad, batch_loss = [], []
 
 
     ####################################################################################################################
