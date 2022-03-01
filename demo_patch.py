@@ -53,10 +53,11 @@ TARGET_CLASS = 'chair'
 fpaths=[]
 for path, subdirs, files in os.walk(ROOT_TRAIN):
     for name in files:
-        fpaths.append(os.path.join(path, name))
+        if name.endswith('jpg'):
+            fpaths.append(os.path.join(path, name))
 
 random.shuffle(fpaths)
-fpaths_train, fpaths_test = fpaths[:36000], fpaths[36000:]
+fpaths_train, fpaths_test = fpaths[:100], fpaths[100:150]
 # print(fpaths[:10])
 # fpaths_test = [os.path.join(ROOT_TEST, fname) for fname in os.listdir(ROOT_TEST)]
 
