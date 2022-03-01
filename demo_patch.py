@@ -181,7 +181,7 @@ fpaths_train, fpaths_test = fpaths[:50], fpaths[50:80]
 # # # ## Testing TOG-vanishing Adversarial Patch
 
 # # # %%
-patch = np.load('2022-03-01_14:40:28_person.npy')
+patch = np.load('./Adv_images/vanishing/2022-03-01_14:40:28_person.npy')
 patch_rand = np.reshape(patch.copy(), newshape=(patch.shape[0]*patch.shape[1]*patch.shape[2], patch.shape[3]))
 np.random.shuffle(patch_rand)
 patch_rand = np.reshape(patch_rand, newshape=patch.shape)
