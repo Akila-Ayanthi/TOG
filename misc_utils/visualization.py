@@ -23,6 +23,6 @@ def visualize_detections(detections_dict, file_name):
             label = '{}: {:.2f}'.format(classes[int(box[0])], box[1])
             current_axis.add_patch(
                 plt.Rectangle((xmin, ymin), xmax - xmin, ymax - ymin, color=color, fill=False, linewidth=2))
-            current_axis.text(xmin, ymin, label, size='small', color='black', bbox={'facecolor': color, 'alpha': 1.0})
+            # current_axis.text(xmin, ymin, label, size='small', color='black', bbox={'facecolor': color, 'alpha': 1.0})
         plt.axis('off')
     plt.savefig(file_name)
