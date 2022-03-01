@@ -37,7 +37,7 @@ detector = YOLOv3_Darknet53(weights=weights)
 ROOT_TRAIN = '/home/dissana8/LAB/Visor/'
 # ROOT_TEST = '/research/datasets/INRIAPerson/Test/pos'
 ROOT_OUTPUT = '/home/dissana8/TOG/Adv_images/'
-NUM_EPOCHS = 10
+NUM_EPOCHS = 5
 LR_INIT = 0.1
 LR_MULTIPLIER = 0.1
 BATCH_SIZE = 3
@@ -199,7 +199,7 @@ detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thres
 detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
 visualize_detections({'Benign (No Attack)': (x_query, detections_query, detector.model_img_size, detector.classes),
                       'Random Patch': (x_rand, detections_rand, detector.model_img_size, detector.classes),
-                      'TOG-vanishing Patch': (x_adv, detections_adv, detector.model_img_size, detector.classes)})
+                      'TOG-vanishing Patch': (x_adv, detections_adv, detector.model_img_size, detector.classes)}, 'adv_example3.jpg')
 
 
 fpath = './assets/example_2.png'    # TODO: Change this path to the image to be attacked
@@ -220,7 +220,7 @@ detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thres
 detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
 visualize_detections({'Benign (No Attack)': (x_query, detections_query, detector.model_img_size, detector.classes),
                       'Random Patch': (x_rand, detections_rand, detector.model_img_size, detector.classes),
-                      'TOG-vanishing Patch': (x_adv, detections_adv, detector.model_img_size, detector.classes)})
+                      'TOG-vanishing Patch': (x_adv, detections_adv, detector.model_img_size, detector.classes)}, 'adv_example2.jpg')
 
 # # %% [markdown]
 # # ## Training TOG-mislabeling Adversarial Patch
