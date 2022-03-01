@@ -195,6 +195,7 @@ print(detections_query)
 
 # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
 rois = extract_roi(detections_query, detector.classes.index(SOURCE_CLASS), x_meta, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
+print(rois)
 
 # Apply adversarial patch to each of the rois
 x_adv, x_rand = x_query.copy(), x_query.copy()
