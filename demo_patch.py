@@ -37,6 +37,7 @@ detector = YOLOv3_Darknet53(weights=weights)
 ROOT_TRAIN = '/home/dissana8/LAB/Visor/'
 # ROOT_TEST = '/research/datasets/INRIAPerson/Test/pos'
 ROOT_OUTPUT = '/home/dissana8/TOG/Adv_images/'
+ADV_IMAGE_FOLDER = '/home/dissana8/TOG/Adv_images/vanishing/LAB/Visor/'
 NUM_EPOCHS = 25
 LR_INIT = 0.1
 LR_MULTIPLIER = 0.1
@@ -181,11 +182,38 @@ for epoch in range(NUM_EPOCHS):
 # # # ## Testing TOG-vanishing Adversarial Patch
 
 # # # %%
+ 
+## Generating adversarial examples
+
 # patch = np.load('/home/dissana8/TOG/Adv_images/vanishing/2022-03-01_18:14:39_person/Epoch-9_Loss-7.49_ASR-0.73.npy')
 # patch_rand = np.reshape(patch.copy(), newshape=(patch.shape[0]*patch.shape[1]*patch.shape[2], patch.shape[3]))
 # np.random.shuffle(patch_rand)
 # patch_rand = np.reshape(patch_rand, newshape=patch.shape)
 
+
+# for path in enumerate(fpath):
+#     input_img = Image.open(path)
+#     x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
+#     detections_query = detector.detect(x_query, conf_threshold=detector.confidence_thresh_default)
+
+#     # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
+#     rois = extract_roi(detections_query, detector.classes.index(SOURCE_CLASS), x_meta, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
+
+#     # Apply adversarial patch to each of the rois
+#     x_adv = x_query.copy()
+#     for _, _, (xmin, ymin, xmax, ymax), did in rois:
+#         x_adv[:, ymin:ymax, xmin:xmax, :] = patch
+#         x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
+#     detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
+
+#     os.makedirs(ADV_IMAGE_FOLDER)
+
+    # filename = fpath.split('/')[-2]
+    # save_name = os.path.join( ADV_IMAGE_FOLDER, filename)
+    # adv_image = x_adv.SAVE(save_name)  
+
+
+## Visualize generated patch on sample images
 # fpath = './assets/example_3.jpg'    # TODO: Change this path to the image to be attacked
 
 # input_img = Image.open(fpath)

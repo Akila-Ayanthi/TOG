@@ -22,9 +22,9 @@ def visualize_detections(detections_dict, file_name):
                 xmax = min(int(box[-2] * input_img.shape[1] / model_img_size[1]), input_img.shape[1])
                 ymax = min(int(box[-1] * input_img.shape[0] / model_img_size[0]), input_img.shape[0])
                 color = colors[int(box[0])]
-                # label = '{}: {:.2f}'.format(classes[int(box[0])], box[1])
+                label = '{}: {:.2f}'.format(classes[int(box[0])], box[1])
                 current_axis.add_patch(
                     plt.Rectangle((xmin, ymin), xmax - xmin, ymax - ymin, color=color, fill=False, linewidth=2))
-                # current_axis.text(xmin, ymin, label, size='small', color='black', bbox={'facecolor': color, 'alpha': 1.0})
+                current_axis.text(xmin, ymin, label, size='small', color='black', bbox={'facecolor': color, 'alpha': 1.0})
         plt.axis('off')
     plt.savefig(file_name)
