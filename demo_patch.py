@@ -221,7 +221,7 @@ for id, path in enumerate(fpaths):
     # print(x_adv.dtype)
     img = T.ToPILImage()(x_adv[0])
     print(save_name)
-    # adv_image = img.save(save_name)
+    adv_image = img.save(save_name)
     break  
 
 
