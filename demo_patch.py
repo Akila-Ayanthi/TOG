@@ -216,8 +216,9 @@ for id, path in enumerate(fpaths):
     filename = path.split('/')[-2]
     save_name = os.path.join( ADV_IMAGE_FOLDER, filename)
     x_adv = x_adv.astype(np.uint8)
-    print(x_adv.dtype)
-    # print(img)
+    # print(x_adv.dtype)
+    img = T.ToPILImage()(x_adv[0])
+    print(img)
     # adv_image = x_adv.SAVE(save_name)  
 
 
