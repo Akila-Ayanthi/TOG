@@ -222,6 +222,8 @@ for id, path in enumerate(fpaths):
 
     if not os.path.exists(save_folder):
             os.makedirs(save_folder)
+    
+    print(x_adv)
 
     x_adv = x_adv.astype(np.uint8)
     print(x_adv)
