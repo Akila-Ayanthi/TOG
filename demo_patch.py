@@ -223,8 +223,8 @@ for id, path in enumerate(fpaths):
     if not os.path.exists(save_folder):
             os.makedirs(save_folder)
 
-    # x_adv = x_adv.astype(np.uint8)
-    # print(x_adv.dtype)
+    x_adv = x_adv.astype(np.uint8)
+    print(x_adv)
     img = T.ToPILImage()(x_adv[0])
     print(save_name)
     adv_image = img.save("adv_image.jpg")
