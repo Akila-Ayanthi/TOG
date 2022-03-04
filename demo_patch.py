@@ -218,8 +218,8 @@ for id, path in enumerate(fpaths):
     x_adv = x_adv.astype(np.uint8)
     # print(x_adv.dtype)
     img = T.ToPILImage()(x_adv[0])
-    print(img)
-    adv_image = img.save(save_name)
+    print(save_name)
+    # adv_image = img.save(save_name)
     break  
 
 
