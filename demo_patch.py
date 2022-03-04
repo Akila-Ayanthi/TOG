@@ -195,67 +195,68 @@ np.random.shuffle(patch_rand)
 patch_rand = np.reshape(patch_rand, newshape=patch.shape)
 
 
-for id, path in enumerate(fpaths):
-    input_img = Image.open(path)
-    print(path)
-    print(input_img)
-    x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
-    # print(x_query)
-    detections_query = detector.detect(x_query, conf_threshold=detector.confidence_thresh_default)
+# for id, path in enumerate(fpaths):
+#     input_img = Image.open(path)
+#     print(path)
+#     print(input_img)
+#     x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
+#     # print(x_query)
+#     detections_query = detector.detect(x_query, conf_threshold=detector.confidence_thresh_default)
 
-    # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
-    rois = extract_roi(detections_query, detector.classes.index(SOURCE_CLASS), x_meta, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
+#     # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
+#     rois = extract_roi(detections_query, detector.classes.index(SOURCE_CLASS), x_meta, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
 
-    # Apply adversarial patch to each of the rois
-    x_adv = x_query.copy()
-    # print(x_adv)
-    for _, _, (xmin, ymin, xmax, ymax), did in rois:
-        x_adv[:, ymin:ymax, xmin:xmax, :] = patch
-        # x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
-    detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
+#     # Apply adversarial patch to each of the rois
+#     x_adv = x_query.copy()
+#     # print(x_adv)
+#     for _, _, (xmin, ymin, xmax, ymax), did in rois:
+#         x_adv[:, ymin:ymax, xmin:xmax, :] = patch
+#         # x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
+#     detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
 
-    # if not os.path.exists(ADV_IMAGE_FOLDER):
-    #     os.makedirs(ADV_IMAGE_FOLDER)
+#     # if not os.path.exists(ADV_IMAGE_FOLDER):
+#     #     os.makedirs(ADV_IMAGE_FOLDER)
 
-    print(path)
-    filename = path.split('/')[-3:]
-    print('/'.join(filename))
-    save_folder = os.path.join(ADV_IMAGE_FOLDER, '/'.join(filename[:2]))
-    print(save_folder)
-    save_name = os.path.join( ADV_IMAGE_FOLDER, '/'.join(filename))
+#     print(path)
+#     filename = path.split('/')[-3:]
+#     print('/'.join(filename))
+#     save_folder = os.path.join(ADV_IMAGE_FOLDER, '/'.join(filename[:2]))
+#     print(save_folder)
+#     save_name = os.path.join( ADV_IMAGE_FOLDER, '/'.join(filename))
 
-    if not os.path.exists(save_folder):
-            os.makedirs(save_folder)
+#     if not os.path.exists(save_folder):
+#             os.makedirs(save_folder)
     
-    # print(x_adv)
+#     # print(x_adv)
 
-    x_adv = x_adv.astype(np.uint8)
-    # print(x_adv)
-    img = T.ToPILImage()(x_adv[0])
-    print(save_name)
-    adv_image = img.save("adv_image.jpg")
-    break  
+#     x_adv = x_adv.astype(np.uint8)
+#     # print(x_adv)
+#     img = T.ToPILImage()(x_adv[0])
+#     print(save_name)
+#     adv_image = img.save("adv_image.jpg")
+#     break  
 
 
 # Visualize generated patch on sample images
-# fpath = './assets/example_3.jpg'    # TODO: Change this path to the image to be attacked
+fpath = './assets/example_3.jpg'    # TODO: Change this path to the image to be attacked
 
-# input_img = Image.open(fpath)
-# x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
-# detections_query = detector.detect(x_query, conf_threshold=detector.confidence_thresh_default)
+input_img = Image.open(fpath)
+x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
+print(x_query)
+detections_query = detector.detect(x_query, conf_threshold=detector.confidence_thresh_default)
 # print(detections_query)
 
-# # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
-# rois = extract_roi(detections_query, detector.classes.index(SOURCE_CLASS), x_meta, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
+# Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
+rois = extract_roi(detections_query, detector.classes.index(SOURCE_CLASS), x_meta, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
 # print(rois)
 
-# # Apply adversarial patch to each of the rois
-# x_adv, x_rand = x_query.copy(), x_query.copy()
-# for _, _, (xmin, ymin, xmax, ymax), did in rois:
-#     x_adv[:, ymin:ymax, xmin:xmax, :] = patch
-#     x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
-# detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
-# detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
+# Apply adversarial patch to each of the rois
+x_adv, x_rand = x_query.copy(), x_query.copy()
+for _, _, (xmin, ymin, xmax, ymax), did in rois:
+    x_adv[:, ymin:ymax, xmin:xmax, :] = patch
+    x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
+detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
+detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
 # visualize_detections({'Benign (No Attack)': (x_query, detections_query, detector.model_img_size, detector.classes),
 #                       'Random Patch': (x_rand, detections_rand, detector.model_img_size, detector.classes),
 #                       'TOG-vanishing Patch': (x_adv, detections_adv, detector.model_img_size, detector.classes)}, 'adv_example3.jpg')
