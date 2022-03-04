@@ -200,7 +200,7 @@ for id, path in enumerate(fpaths):
     print(path)
     print(input_img)
     x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
-    print(x_query)
+    # print(x_query)
     detections_query = detector.detect(x_query, conf_threshold=detector.confidence_thresh_default)
 
     # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
