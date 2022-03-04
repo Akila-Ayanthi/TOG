@@ -8,6 +8,7 @@ def visualize_detections(detections_dict, file_name):
     plt.figure(figsize=(3 * len(detections_dict), 3))
     for pid, title in enumerate(detections_dict.keys()):
         input_img, detections, model_img_size, classes = detections_dict[title]
+        print(input_img)
         if len(input_img.shape) == 4:
             input_img = input_img[0]
         plt.subplot(1, len(detections_dict), pid + 1)
