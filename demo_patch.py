@@ -202,7 +202,7 @@ for id, path in enumerate(fpaths):
     x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
     # print(x_query)
     detections_query = detector.detect(x_query, conf_threshold=detector.confidence_thresh_default)
-    print(detections_query)
+    # print(detections_query)
 
     # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
     rois = extract_roi(detections_query, detector.classes.index(SOURCE_CLASS), x_meta, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
@@ -214,6 +214,7 @@ for id, path in enumerate(fpaths):
         x_adv[:, ymin:ymax, xmin:xmax, :] = patch
         # x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
     detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
+    print(detections_adv)
 
     # if not os.path.exists(ADV_IMAGE_FOLDER):
     #     os.makedirs(ADV_IMAGE_FOLDER)
