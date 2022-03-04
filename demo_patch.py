@@ -193,7 +193,7 @@ np.random.shuffle(patch_rand)
 patch_rand = np.reshape(patch_rand, newshape=patch.shape)
 
 
-for path in enumerate(fpaths):
+for id, path in enumerate(fpaths):
     print(path)
     # input_img = Image.open(path)
     # x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
