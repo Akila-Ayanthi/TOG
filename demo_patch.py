@@ -205,6 +205,7 @@ for id, path in enumerate(fpaths):
 
     # Apply adversarial patch to each of the rois
     x_adv = x_query.copy()
+    print(x_adv)
     for _, _, (xmin, ymin, xmax, ymax), did in rois:
         x_adv[:, ymin:ymax, xmin:xmax, :] = patch
         # x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
@@ -223,10 +224,10 @@ for id, path in enumerate(fpaths):
     if not os.path.exists(save_folder):
             os.makedirs(save_folder)
     
-    print(x_adv)
+    # print(x_adv)
 
     x_adv = x_adv.astype(np.uint8)
-    print(x_adv)
+    # print(x_adv)
     img = T.ToPILImage()(x_adv[0])
     print(save_name)
     adv_image = img.save("adv_image.jpg")
