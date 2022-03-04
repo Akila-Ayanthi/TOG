@@ -214,7 +214,7 @@ for id, path in enumerate(fpaths):
         os.makedirs(ADV_IMAGE_FOLDER)
 
     print(path)
-    filename = path.split('/')[-2]
+    filename = path.split('/')[-1]
     print(filename)
     save_name = os.path.join( ADV_IMAGE_FOLDER, filename)
     x_adv = x_adv.astype(np.uint8)
