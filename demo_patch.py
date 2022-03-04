@@ -219,7 +219,8 @@ for id, path in enumerate(fpaths):
     # print(x_adv.dtype)
     img = T.ToPILImage()(x_adv[0])
     print(img)
-    # adv_image = x_adv.SAVE(save_name)  
+    adv_image = img.SAVE(save_name)
+    break  
 
 
 # Visualize generated patch on sample images
