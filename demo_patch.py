@@ -213,7 +213,8 @@ for id, path in enumerate(fpaths):
 
     filename = path.split('/')[-2]
     save_name = os.path.join( ADV_IMAGE_FOLDER, filename)
-    adv_image = x_adv.SAVE(save_name)  
+    print(x_adv.shape)
+    # adv_image = x_adv.SAVE(save_name)  
 
 
 # Visualize generated patch on sample images
