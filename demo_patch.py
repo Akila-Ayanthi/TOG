@@ -194,25 +194,26 @@ patch_rand = np.reshape(patch_rand, newshape=patch.shape)
 
 
 for path in enumerate(fpaths):
-    input_img = Image.open(path)
-    x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
-    detections_query = detector.detect(x_query, conf_threshold=detector.confidence_thresh_default)
+    print(path)
+    # input_img = Image.open(path)
+    # x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
+    # detections_query = detector.detect(x_query, conf_threshold=detector.confidence_thresh_default)
 
-    # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
-    rois = extract_roi(detections_query, detector.classes.index(SOURCE_CLASS), x_meta, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
+    # # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
+    # rois = extract_roi(detections_query, detector.classes.index(SOURCE_CLASS), x_meta, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
 
-    # Apply adversarial patch to each of the rois
-    x_adv = x_query.copy()
-    for _, _, (xmin, ymin, xmax, ymax), did in rois:
-        x_adv[:, ymin:ymax, xmin:xmax, :] = patch
-        # x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
-    detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
+    # # Apply adversarial patch to each of the rois
+    # x_adv = x_query.copy()
+    # for _, _, (xmin, ymin, xmax, ymax), did in rois:
+    #     x_adv[:, ymin:ymax, xmin:xmax, :] = patch
+    #     # x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
+    # detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
 
-    os.makedirs(ADV_IMAGE_FOLDER)
+    # os.makedirs(ADV_IMAGE_FOLDER)
 
-    filename = fpaths.split('/')[-2]
-    save_name = os.path.join( ADV_IMAGE_FOLDER, filename)
-    adv_image = x_adv.SAVE(save_name)  
+    # filename = fpaths.split('/')[-2]
+    # save_name = os.path.join( ADV_IMAGE_FOLDER, filename)
+    # adv_image = x_adv.SAVE(save_name)  
 
 
 # Visualize generated patch on sample images
