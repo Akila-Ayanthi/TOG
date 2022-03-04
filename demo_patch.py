@@ -216,10 +216,11 @@ for id, path in enumerate(fpaths):
     print(path)
     filename = path.split('/')[-3:]
     print('/'.join(filename))
+    save_folder = os.path.join(ADV_IMAGE_FOLDER, '/'.join(filename[:2]))
     save_name = os.path.join( ADV_IMAGE_FOLDER, '/'.join(filename))
 
-    if not os.path.exists(save_name):
-            os.makedirs(save_name)
+    if not os.path.exists(save_folder):
+            os.makedirs(save_folder)
 
     x_adv = x_adv.astype(np.uint8)
     # print(x_adv.dtype)
