@@ -210,13 +210,17 @@ for id, path in enumerate(fpaths):
         # x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
     detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
 
-    if not os.path.exists(ADV_IMAGE_FOLDER):
-        os.makedirs(ADV_IMAGE_FOLDER)
+    # if not os.path.exists(ADV_IMAGE_FOLDER):
+    #     os.makedirs(ADV_IMAGE_FOLDER)
 
     print(path)
     filename = path.split('/')[-3:]
     print('/'.join(filename))
     save_name = os.path.join( ADV_IMAGE_FOLDER, '/'.join(filename))
+
+    if not os.path.exists(save_name):
+            os.makedirs(save_name)
+
     x_adv = x_adv.astype(np.uint8)
     # print(x_adv.dtype)
     img = T.ToPILImage()(x_adv[0])
