@@ -214,7 +214,7 @@ for id, path in enumerate(fpaths):
         x_adv[:, ymin:ymax, xmin:xmax, :] = patch
         # x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
     detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
-    print(detections_adv)
+    # print(detections_adv)
 
     # if not os.path.exists(ADV_IMAGE_FOLDER):
     #     os.makedirs(ADV_IMAGE_FOLDER)
@@ -229,7 +229,7 @@ for id, path in enumerate(fpaths):
     if not os.path.exists(save_folder):
             os.makedirs(save_folder)
     
-    # print(x_adv)
+    print(x_adv)
 
     x_adv = x_adv.astype(np.uint8)
     # print(x_adv)
