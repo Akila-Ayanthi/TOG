@@ -200,6 +200,7 @@ for id, path in enumerate(fpaths):
     print(path)
     print(input_img)
     x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
+    print(x_query)
     detections_query = detector.detect(x_query, conf_threshold=detector.confidence_thresh_default)
 
     # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
@@ -207,7 +208,7 @@ for id, path in enumerate(fpaths):
 
     # Apply adversarial patch to each of the rois
     x_adv = x_query.copy()
-    print(x_adv)
+    # print(x_adv)
     for _, _, (xmin, ymin, xmax, ymax), did in rois:
         x_adv[:, ymin:ymax, xmin:xmax, :] = patch
         # x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
