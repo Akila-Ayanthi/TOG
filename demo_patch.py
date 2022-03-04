@@ -19,6 +19,8 @@ import numpy as np
 import datetime
 import os
 import random
+import torchvision
+import torchvision.transforms as T
 K.clear_session()
 
 # %% [markdown]
@@ -214,6 +216,8 @@ for id, path in enumerate(fpaths):
     filename = path.split('/')[-2]
     save_name = os.path.join( ADV_IMAGE_FOLDER, filename)
     print(x_adv.shape)
+    img = T.ToPILImage()(x_adv)
+    print(img)
     # adv_image = x_adv.SAVE(save_name)  
 
 
