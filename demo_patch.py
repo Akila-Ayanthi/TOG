@@ -208,7 +208,8 @@ for id, path in enumerate(fpaths):
         # x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
     detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
 
-    os.makedirs(ADV_IMAGE_FOLDER)
+    if not os.path.exists(ADV_IMAGE_FOLDER):
+        os.makedirs(ADV_IMAGE_FOLDER)
 
     filename = path.split('/')[-2]
     save_name = os.path.join( ADV_IMAGE_FOLDER, filename)
