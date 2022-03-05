@@ -267,9 +267,9 @@ print(x_adv)
 print(x_adv.shape)
 detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
 detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
-x_adv = torch.tensor(x_adv[0])
-print(x_adv)
-save_image(x_adv, "adv_image3.png")
+x_ad = torch.tensor(x_adv[0])
+print(x_ad.shape)
+save_image(x_ad, "adv_image3.png")
 # adv_image = img.save("adv_image3.jpg")
 # visualize_detections({'Benign (No Attack)': (x_query, detections_query, detector.model_img_size, detector.classes),
 #                       'Random Patch': (x_rand, detections_rand, detector.model_img_size, detector.classes),
