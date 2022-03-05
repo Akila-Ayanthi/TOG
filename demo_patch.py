@@ -263,7 +263,8 @@ for _, _, (xmin, ymin, xmax, ymax), did in rois:
     x_adv[:, ymin:ymax, xmin:xmax, :] = patch
     x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
 
-# print(x_adv)
+print(x_adv)
+print(x_adv.shape)
 detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
 detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
 x_adv = torch.from_numpy(x_adv)
