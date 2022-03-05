@@ -214,8 +214,6 @@ patch_rand = np.reshape(patch_rand, newshape=patch.shape)
 
 for id, path in enumerate(fpaths):
     input_img = Image.open(path)
-    print(path)
-    print(input_img)
     x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
     # print(x_query)
     detections_query = detector.detect(x_query, conf_threshold=detector.confidence_thresh_default)
@@ -236,17 +234,13 @@ for id, path in enumerate(fpaths):
     # if not os.path.exists(ADV_IMAGE_FOLDER):
     #     os.makedirs(ADV_IMAGE_FOLDER)
 
-    print(path)
     filename = path.split('/')[-3:]
     print('/'.join(filename))
     save_folder = os.path.join(ADV_IMAGE_FOLDER, '/'.join(filename[:2]))
-    print(save_folder)
     save_name = os.path.join( ADV_IMAGE_FOLDER, '/'.join(filename))
 
     if not os.path.exists(save_folder):
             os.makedirs(save_folder)
-    
-    print(x_adv)
 
     dtype = torch.DoubleTensor
     detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
