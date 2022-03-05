@@ -65,7 +65,7 @@ for path, subdirs, files in os.walk(ROOT_TRAIN):
         if name.endswith('jpg'):
             fpaths.append(os.path.join(path, name))
 
-fpaths = fpaths[:100]
+fpaths = fpaths[:500]
 
 # random.shuffle(fpaths)
 # fpaths_train, fpaths_test = fpaths[:5000], fpaths[5000:7500]
