@@ -23,6 +23,8 @@ import torchvision
 import torchvision.transforms as T
 K.clear_session()
 
+os.environ["HDF5_USE_FILE_LOCKING"] = "FALSE"
+
 # %% [markdown]
 # You can download the pretrained weights here [[link]](https://www.dropbox.com/s/rx3r15fg8h1jl8v/YOLOv3_Darknet53.h5?dl=0) or use the popular repository implementing YOLOv3 in Keras [[link]](https://github.com/qqwweee/keras-yolo3) to train your own model. Once you have downloaded or trained the YOLOv3 detector, you need to *modify* the path in the cell below to point to the `.h5` file. 
 
