@@ -248,26 +248,26 @@ input_img = Image.open(fpath)
 x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
 # print(x_query)
 detections_query = detector.detect(x_query, conf_threshold=detector.confidence_thresh_default)
-print(detections_query)
+# print(detections_query)
 
-# # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
-# rois = extract_roi(detections_query, detector.classes.index(SOURCE_CLASS), x_meta, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
-# # print(rois)
+# Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
+rois = extract_roi(detections_query, detector.classes.index(SOURCE_CLASS), x_meta, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
+# print(rois)
 
-# # Apply adversarial patch to each of the rois
-# x_adv, x_rand = x_query.copy(), x_query.copy()
-# for _, _, (xmin, ymin, xmax, ymax), did in rois:
-#     x_adv[:, ymin:ymax, xmin:xmax, :] = patch
-#     x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
+# Apply adversarial patch to each of the rois
+x_adv, x_rand = x_query.copy(), x_query.copy()
+for _, _, (xmin, ymin, xmax, ymax), did in rois:
+    x_adv[:, ymin:ymax, xmin:xmax, :] = patch
+    x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
 
 # print(x_adv)
-# detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
-# detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
-# # x_adv = x_adv.astype(np.uint8)
-# # # print(x_adv)
-# # img = T.ToPILImage()(x_adv[0])
-# # # print(save_name)
-# # adv_image = img.save("adv_image3.jpg")
+detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
+detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
+x_adv = x_adv.astype(np.uint8)
+# print(x_adv)
+img = T.ToPILImage()(x_adv[0])
+# print(save_name)
+adv_image = img.save("adv_image3.jpg")
 # visualize_detections({'Benign (No Attack)': (x_query, detections_query, detector.model_img_size, detector.classes),
 #                       'Random Patch': (x_rand, detections_rand, detector.model_img_size, detector.classes),
 #                       'TOG-vanishing Patch': (x_adv, detections_adv, detector.model_img_size, detector.classes)}, 'adv_example3.jpg')
