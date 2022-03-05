@@ -269,8 +269,9 @@ detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thres
 detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
 x_ad = torch.tensor(x_adv[0])
 print(x_ad.shape)
-# x_ad = x_ad.permute(2, 1, 0)
+x_ad = x_ad.permute(2, 1, 0)
 print(x_ad.shape)
+x_ad = T.RandomRotation(270)(x_ad)
 save_image(x_ad, "adv_image3.png")
 # adv_image = img.save("adv_image3.jpg")
 # visualize_detections({'Benign (No Attack)': (x_query, detections_query, detector.model_img_size, detector.classes),
