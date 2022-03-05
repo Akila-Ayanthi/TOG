@@ -8,6 +8,7 @@
 # ## Preparation of Victim Detector
 
 # %%
+import torch
 from attack_utils.patch_utils import extract_roi, evaluate_vanishing_patch, evaluate_mislabeling_patch
 from dataset_utils.preprocessing import letterbox_image_padded
 from models.yolov3 import YOLOv3_Darknet53
@@ -265,7 +266,7 @@ for _, _, (xmin, ymin, xmax, ymax), did in rois:
 # print(x_adv)
 detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
 detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
-x_adv = T.ToTensor()(x_adv)
+x_adv = torch.from_numpy(x_adv)
 save_image(x_adv[0], "adv_image3.png")
 # adv_image = img.save("adv_image3.jpg")
 # visualize_detections({'Benign (No Attack)': (x_query, detections_query, detector.model_img_size, detector.classes),
