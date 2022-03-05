@@ -276,7 +276,8 @@ for _, _, (xmin, ymin, xmax, ymax), did in rois:
 print(x_adv)
 print(x_adv.shape)
 print(x_adv.dtype)
-dtype =  torch.cuda.FloatTensor if torch.cuda.is_available() else torch.FloatTensor
+# dtype =  torch.cuda.FloatTensor if torch.cuda.is_available() else torch.FloatTensor
+dtype = torch.FloatTensor
 detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
 detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
 x_ad = torch.tensor(x_adv)
