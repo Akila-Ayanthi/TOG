@@ -284,7 +284,7 @@ x_ad = torch.tensor(x_adv)
 print(x_ad.shape)
 x_ad = x_ad.permute(0, 3, 2, 1)
 print(x_ad.shape)
-rotated_im = rot_img(x_ad, np.pi/2, dtype)
+rotated_im = rot_img(x_ad, np.pi/2*3, dtype)
 save_image(rotated_im, "adv_image3.png")
 # adv_image = img.save("adv_image3.jpg")
 # visualize_detections({'Benign (No Attack)': (x_query, detections_query, detector.model_img_size, detector.classes),
