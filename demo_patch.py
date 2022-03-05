@@ -22,6 +22,7 @@ import os
 import random
 import torchvision
 from torchvision.utils import save_image
+import torch.nn.functional as F
 import torchvision.transforms as T
 import matplotlib.pyplot as plt
 K.clear_session()
@@ -242,7 +243,16 @@ patch_rand = np.reshape(patch_rand, newshape=patch.shape)
 #     print(save_name)
 #     adv_image = img.save("adv_image.jpg")
 #     break  
+def get_rot_mat(theta):
+    theta = torch.tensor(theta)
+    return torch.tensor([[torch.cos(theta), -torch.sin(theta), 0],
+                         [torch.sin(theta), torch.cos(theta), 0]])
 
+def rot_img(x, theta, dtype):
+    rot_mat = get_rot_mat(theta)[None, ...].type(dtype).repeat(x.shape[0],1,1)
+    grid = F.affine_grid(rot_mat, x.size()).type(dtype)
+    x = F.grid_sample(x, grid)
+    return x
 
 # Visualize generated patch on sample images
 fpath = './assets/example_3.jpg'    # TODO: Change this path to the image to be attacked
@@ -271,7 +281,8 @@ x_ad = torch.tensor(x_adv)
 print(x_ad.shape)
 x_ad = x_ad[0,:,:,:].permute(2, 1, 0)
 print(x_ad.shape)
-save_image(x_ad, "adv_image3.png")
+rotated_im = rot_img(x_ad, np.pi/2, np.float64)
+save_image(rotated_im, "adv_image3.png")
 # adv_image = img.save("adv_image3.jpg")
 # visualize_detections({'Benign (No Attack)': (x_query, detections_query, detector.model_img_size, detector.classes),
 #                       'Random Patch': (x_rand, detections_rand, detector.model_img_size, detector.classes),
