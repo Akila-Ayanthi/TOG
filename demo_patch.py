@@ -195,54 +195,6 @@ fpaths = fpaths[:100]
  
 ## Generating adversarial examples
 
-patch = np.load('/home/dissana8/TOG/Adv_images/vanishing/2022-03-01_22:27:22_person/Epoch-19_Loss-3.71_ASR-0.96.npy')
-patch_rand = np.reshape(patch.copy(), newshape=(patch.shape[0]*patch.shape[1]*patch.shape[2], patch.shape[3]))
-np.random.shuffle(patch_rand)
-patch_rand = np.reshape(patch_rand, newshape=patch.shape)
-
-
-# for id, path in enumerate(fpaths):
-#     input_img = Image.open(path)
-#     print(path)
-#     print(input_img)
-#     x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
-#     # print(x_query)
-#     detections_query = detector.detect(x_query, conf_threshold=detector.confidence_thresh_default)
-#     # print(detections_query)
-
-#     # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
-#     rois = extract_roi(detections_query, detector.classes.index(SOURCE_CLASS), x_meta, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
-
-#     # Apply adversarial patch to each of the rois
-#     x_adv = x_query.copy()
-#     # print(x_adv)
-#     for _, _, (xmin, ymin, xmax, ymax), did in rois:
-#         x_adv[:, ymin:ymax, xmin:xmax, :] = patch
-#         # x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
-#     detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
-#     # print(detections_adv)
-
-#     # if not os.path.exists(ADV_IMAGE_FOLDER):
-#     #     os.makedirs(ADV_IMAGE_FOLDER)
-
-#     print(path)
-#     filename = path.split('/')[-3:]
-#     print('/'.join(filename))
-#     save_folder = os.path.join(ADV_IMAGE_FOLDER, '/'.join(filename[:2]))
-#     print(save_folder)
-#     save_name = os.path.join( ADV_IMAGE_FOLDER, '/'.join(filename))
-
-#     if not os.path.exists(save_folder):
-#             os.makedirs(save_folder)
-    
-#     print(x_adv)
-
-#     x_adv = x_adv.astype(np.uint8)
-#     # print(x_adv)
-#     img = T.ToPILImage()(x_adv[0])
-#     print(save_name)
-#     adv_image = img.save("adv_image.jpg")
-#     break  
 def get_rot_mat(theta):
     theta = torch.tensor(theta)
     return torch.tensor([[torch.cos(theta), -torch.sin(theta), 0],
@@ -254,39 +206,87 @@ def rot_img(x, theta, dtype):
     x = F.grid_sample(x, grid)
     return x
 
+patch = np.load('/home/dissana8/TOG/Adv_images/vanishing/2022-03-01_22:27:22_person/Epoch-19_Loss-3.71_ASR-0.96.npy')
+patch_rand = np.reshape(patch.copy(), newshape=(patch.shape[0]*patch.shape[1]*patch.shape[2], patch.shape[3]))
+np.random.shuffle(patch_rand)
+patch_rand = np.reshape(patch_rand, newshape=patch.shape)
+
+
+for id, path in enumerate(fpaths):
+    input_img = Image.open(path)
+    print(path)
+    print(input_img)
+    x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
+    # print(x_query)
+    detections_query = detector.detect(x_query, conf_threshold=detector.confidence_thresh_default)
+    # print(detections_query)
+
+    # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
+    rois = extract_roi(detections_query, detector.classes.index(SOURCE_CLASS), x_meta, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
+
+    # Apply adversarial patch to each of the rois
+    x_adv = x_query.copy()
+    # print(x_adv)
+    for _, _, (xmin, ymin, xmax, ymax), did in rois:
+        x_adv[:, ymin:ymax, xmin:xmax, :] = patch
+        # x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
+    detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
+    # print(detections_adv)
+
+    # if not os.path.exists(ADV_IMAGE_FOLDER):
+    #     os.makedirs(ADV_IMAGE_FOLDER)
+
+    print(path)
+    filename = path.split('/')[-3:]
+    print('/'.join(filename))
+    save_folder = os.path.join(ADV_IMAGE_FOLDER, '/'.join(filename[:2]))
+    print(save_folder)
+    save_name = os.path.join( ADV_IMAGE_FOLDER, '/'.join(filename))
+
+    if not os.path.exists(save_folder):
+            os.makedirs(save_folder)
+    
+    print(x_adv)
+
+    dtype = torch.DoubleTensor
+    detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
+    # detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
+    x_ad = torch.tensor(x_adv)
+    x_ad = x_ad.permute(0, 3, 2, 1)
+    rotated_im = rot_img(x_ad, np.pi/2*3, dtype)
+    save_image(rotated_im, save_name)
+
+
+
+
 # Visualize generated patch on sample images
-fpath = './assets/example_3.jpg'    # TODO: Change this path to the image to be attacked
+# fpath = './assets/example_3.jpg'    # TODO: Change this path to the image to be attacked
 
-input_img = Image.open(fpath)
-x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
-# print(x_query)
-detections_query = detector.detect(x_query, conf_threshold=detector.confidence_thresh_default)
-# print(detections_query)
+# input_img = Image.open(fpath)
+# x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
+# # print(x_query)
+# detections_query = detector.detect(x_query, conf_threshold=detector.confidence_thresh_default)
+# # print(detections_query)
 
-# Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
-rois = extract_roi(detections_query, detector.classes.index(SOURCE_CLASS), x_meta, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
-# print(rois)
+# # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
+# rois = extract_roi(detections_query, detector.classes.index(SOURCE_CLASS), x_meta, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
+# # print(rois)
 
-# Apply adversarial patch to each of the rois
-x_adv, x_rand = x_query.copy(), x_query.copy()
-for _, _, (xmin, ymin, xmax, ymax), did in rois:
-    x_adv[:, ymin:ymax, xmin:xmax, :] = patch
-    x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
+# # Apply adversarial patch to each of the rois
+# x_adv, x_rand = x_query.copy(), x_query.copy()
+# for _, _, (xmin, ymin, xmax, ymax), did in rois:
+#     x_adv[:, ymin:ymax, xmin:xmax, :] = patch
+#     x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
 
-print(x_adv)
-print(x_adv.shape)
-print(x_adv.dtype)
-# dtype =  torch.cuda.FloatTensor if torch.cuda.is_available() else torch.FloatTensor
-dtype = torch.DoubleTensor
-detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
-detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
-x_ad = torch.tensor(x_adv)
-print(x_ad.shape)
-x_ad = x_ad.permute(0, 3, 2, 1)
-print(x_ad.shape)
-rotated_im = rot_img(x_ad, np.pi/2*3, dtype)
-save_image(rotated_im, "adv_image3.png")
-# adv_image = img.save("adv_image3.jpg")
+
+# dtype = torch.DoubleTensor
+# detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
+# detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
+# x_ad = torch.tensor(x_adv)
+# x_ad = x_ad.permute(0, 3, 2, 1)
+# rotated_im = rot_img(x_ad, np.pi/2*3, dtype)
+# save_image(rotated_im, "adv_image3.png")
+# # adv_image = img.save("adv_image3.jpg")
 # visualize_detections({'Benign (No Attack)': (x_query, detections_query, detector.model_img_size, detector.classes),
 #                       'Random Patch': (x_rand, detections_rand, detector.model_img_size, detector.classes),
 #                       'TOG-vanishing Patch': (x_adv, detections_adv, detector.model_img_size, detector.classes)}, 'adv_example3.jpg')
