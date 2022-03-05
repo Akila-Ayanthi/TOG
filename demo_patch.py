@@ -265,7 +265,7 @@ detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thres
 detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
 x_adv = x_adv.astype(np.uint8)
 # print(x_adv)
-img = T.ToPILImage()(x_adv[0])
+img = T.ToPILImage()(x_adv)
 # print(save_name)
 adv_image = img.save("adv_image3.jpg")
 # visualize_detections({'Benign (No Attack)': (x_query, detections_query, detector.model_img_size, detector.classes),
