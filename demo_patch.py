@@ -206,7 +206,7 @@ def rot_img(x, theta, dtype):
     x = F.grid_sample(x, grid)
     return x
 
-patch = np.load('/home/dissana8/TOG/Adv_images/vanishing/2022-03-01_22:27:22_person/Epoch-19_Loss-3.71_ASR-0.96.npy')
+patch = np.load('/home/dissana8/TOG/Adv_images/vanishing/2022-03-09_14:51:18_person/Epoch-19_Loss-8.84_ASR-0.80.npy')
 patch_rand = np.reshape(patch.copy(), newshape=(patch.shape[0]*patch.shape[1]*patch.shape[2], patch.shape[3]))
 np.random.shuffle(patch_rand)
 patch_rand = np.reshape(patch_rand, newshape=patch.shape)
