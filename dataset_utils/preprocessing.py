@@ -5,7 +5,7 @@ import numpy as np
 def letterbox_image_padded(image, size=(416, 416)):
     """ Resize image with unchanged aspect ratio using padding """
     image_copy = image.copy()
-    # print(image_copy)
+    print(np.asarray(image_copy))
     iw, ih = image_copy.size
     print(iw)
     print(ih)
