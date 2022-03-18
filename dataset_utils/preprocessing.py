@@ -11,8 +11,11 @@ def letterbox_image_padded(image, size=(416, 416)):
     print(ih)
     w, h = size
     scale = min(w / iw, h / ih)
+    print(scale)
     nw = int(iw * scale)
     nh = int(ih * scale)
+    print(nw)
+    print(nh)
 
     image_copy = image_copy.resize((nw, nh), Image.BICUBIC)
     new_image = Image.new('RGB', size, (0, 0, 0))
