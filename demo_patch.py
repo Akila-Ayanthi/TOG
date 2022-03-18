@@ -260,7 +260,8 @@ input_img = Image.open(fpath)
 print(input_img)
 # x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
 # print(x_query)
-x_query = input_img.resize((416, 416), Image.BICUBIC)
+new_image = input_img.resize((416, 416), Image.BICUBIC)
+x_query = np.asarray(new_image)[np.newaxis, :, :, :] / 255.
 detections_query = detector.detect(x_query, conf_threshold=detector.confidence_thresh_default)
 print(detections_query)
 
