@@ -14,7 +14,7 @@ def letterbox_image_padded(image, size=(416, 416)):
 
     image_copy = image_copy.resize((nw, nh), Image.BICUBIC)
     new_image = Image.new('RGB', size, (0, 0, 0))
-    print(new_image)
+    print(np.asarray(new_image))
     new_image.paste(image_copy, ((w - nw) // 2, (h - nh) // 2))
     print(new_image)
     new_image = np.asarray(new_image)[np.newaxis, :, :, :] / 255.
