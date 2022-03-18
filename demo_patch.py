@@ -276,6 +276,7 @@ for _, _, (xmin, ymin, xmax, ymax), did in rois:
 dtype = torch.DoubleTensor
 detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
 detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
+print(x_adv)
 x_ad = torch.tensor(x_adv)
 x_ad = x_ad.permute(0, 3, 2, 1)
 print(x_ad)
