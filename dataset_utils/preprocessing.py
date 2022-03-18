@@ -2,7 +2,7 @@ from PIL import Image
 import numpy as np
 
 
-def letterbox_image_padded(image, size=(640, 640)):
+def letterbox_image_padded(image, size=(416, 416)):
     """ Resize image with unchanged aspect ratio using padding """
     image_copy = image.copy()
     print(np.asarray(image_copy))
@@ -10,8 +10,6 @@ def letterbox_image_padded(image, size=(640, 640)):
     print(iw)
     print(ih)
     w, h = size
-    print(w)
-    print(h)
     scale = min(w / iw, h / ih)
     print(scale)
     nw = int(iw * scale)

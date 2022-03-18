@@ -254,7 +254,7 @@ patch_rand = np.reshape(patch_rand, newshape=patch.shape)
 
 
 # Visualize generated patch on sample images
-fpath = './assets/example_3.jpg'    # TODO: Change this path to the image to be attacked
+fpath = './assets/example_2.png'    # TODO: Change this path to the image to be attacked
 
 input_img = Image.open(fpath)
 print(input_img)
