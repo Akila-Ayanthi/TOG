@@ -10,6 +10,8 @@ def letterbox_image_padded(image, size=(640, 640)):
     print(iw)
     print(ih)
     w, h = size
+    print(w)
+    print(h)
     scale = min(w / iw, h / ih)
     print(scale)
     nw = int(iw * scale)
