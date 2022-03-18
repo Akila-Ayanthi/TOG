@@ -258,10 +258,11 @@ fpath = './assets/example_3.jpg'    # TODO: Change this path to the image to be 
 
 input_img = Image.open(fpath)
 print(input_img)
-x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
+# x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
 # print(x_query)
+x_query = input_img.resize((416, 416), Image.BICUBIC)
 detections_query = detector.detect(x_query, conf_threshold=detector.confidence_thresh_default)
-# print(detections_query)
+print(detections_query)
 
 # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
 rois = extract_roi(detections_query, detector.classes.index(SOURCE_CLASS), x_meta, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
@@ -277,7 +278,8 @@ for _, _, (xmin, ymin, xmax, ymax), did in rois:
 dtype = torch.DoubleTensor
 detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
 detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
-# print(x_adv)
+print("x_adv")
+print(x_adv)
 x_ad = torch.tensor(x_adv)
 x_ad = x_ad.permute(0, 3, 2, 1)
 # print(x_ad)
