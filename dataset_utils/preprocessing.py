@@ -18,13 +18,14 @@ def letterbox_image_padded(image, size=(416, 416)):
     print(nh)
 
     image_copy = image_copy.resize((nw, nh), Image.BICUBIC)
-    print(np.asarray(image_copy))
-    new_image = Image.new('RGB', size, (0, 0, 0))
-    print(np.asarray(new_image))
-    new_image.paste(image_copy, ((w - nw) // 2, (h - nh) // 2))
-    print("pasted image")
-    print(np.asarray(new_image))
-    new_image = np.asarray(new_image)[np.newaxis, :, :, :] / 255.
+    # print(np.asarray(image_copy))
+    # new_image = Image.new('RGB', size, (0, 0, 0))
+    # print(np.asarray(new_image))
+    # new_image.paste(image_copy, ((w - nw) // 2, (h - nh) // 2))
+    # print("pasted image")
+    # print(np.asarray(new_image))
+    # new_image = np.asarray(new_image)[np.newaxis, :, :, :] / 255.
+    new_image = np.asarray(image_copy)[np.newaxis, :, :, :] / 255.
     print(new_image)
     meta = ((w - nw) // 2, (h - nh) // 2, nw + (w - nw) // 2, nh + (h - nh) // 2, scale)
 
