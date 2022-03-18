@@ -257,6 +257,7 @@ patch_rand = np.reshape(patch_rand, newshape=patch.shape)
 fpath = './assets/example_3.jpg'    # TODO: Change this path to the image to be attacked
 
 input_img = Image.open(fpath)
+print(input_img)
 x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
 # print(x_query)
 detections_query = detector.detect(x_query, conf_threshold=detector.confidence_thresh_default)
