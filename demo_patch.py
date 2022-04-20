@@ -279,7 +279,7 @@ x_ad = x_ad.permute(0, 3, 2, 1)
 rotated_im = rot_img(x_ad, -np.pi/2, dtype)
 save_image(rotated_im, "adv_image3.png")
 image = Image.open("adv_image3.png")
-image = image.resize(640, 480)
+image = image.resize((640, 480))
 image.save("adv_image3.png")
 
 # adv_image = img.save("adv_image3.jpg")
