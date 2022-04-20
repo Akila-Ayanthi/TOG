@@ -15,7 +15,7 @@ from models.yolov3 import YOLOv3_Darknet53
 from misc_utils.visualization import visualize_detections
 from keras import backend as K
 from tqdm import tqdm
-from PIL import Image
+from PIL import Image, ImageOps
 import numpy as np
 import datetime
 import os
@@ -281,9 +281,10 @@ x_ad = torch.tensor(x_adv)
 x_ad = x_ad.permute(0, 3, 2, 1)
 # rotated_im = rot_img(x_ad, -np.pi/2, dtype)
 save_image(x_ad, "adv_image3.png")
-# image = Image.open("adv_image3.png")
-# image = image.resize((640, 480))
-# image.save("adv_image3.png")
+image = Image.open("adv_image3.png")
+image = image.resize((640, 480))
+image = ImageOps.mirror(image)
+image.save("adv_image3.png")
 
 # adv_image = img.save("adv_image3.jpg")
 # visualize_detections({'Benign (No Attack)': (x_query, detections_query, detector.model_img_size, detector.classes),
