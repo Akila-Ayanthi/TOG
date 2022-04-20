@@ -212,43 +212,46 @@ np.random.shuffle(patch_rand)
 patch_rand = np.reshape(patch_rand, newshape=patch.shape)
 
 
-# for id, path in enumerate(fpaths):
-#     input_img = Image.open(path)
-#     x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
-#     detections_query = detector.detect(x_query, conf_threshold=detector.confidence_thresh_default)
+for id, path in enumerate(fpaths):
+    input_img = Image.open(path)
+    x_query, x_meta = letterbox_image_padded(input_img, size=detector.model_img_size)
+    detections_query = detector.detect(x_query, conf_threshold=detector.confidence_thresh_default)
 
-#     # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
-#     rois = extract_roi(detections_query, detector.classes.index(SOURCE_CLASS), x_meta, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
+    # Get roi candidates with an area higher than a predefined threshold to avoid trivial attacks
+    rois = extract_roi(detections_query, detector.classes.index(SOURCE_CLASS), x_meta, min_size=MIN_ROI_SIZE, patch_size=PATCH_SIZE)
 
-#     # Apply adversarial patch to each of the rois
-#     x_adv = x_query.copy()
-#     # print(x_adv)
-#     for _, _, (xmin, ymin, xmax, ymax), did in rois:
-#         x_adv[:, ymin:ymax, xmin:xmax, :] = patch
-#         # x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
-#     detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
-#     # print(detections_adv)
+    # Apply adversarial patch to each of the rois
+    x_adv = x_query.copy()
+    # print(x_adv)
+    for _, _, (xmin, ymin, xmax, ymax), did in rois:
+        x_adv[:, ymin:ymax, xmin:xmax, :] = patch
+        # x_rand[:, ymin:ymax, xmin:xmax, :] = patch_rand
+    detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
+    # print(detections_adv)
 
-#     # if not os.path.exists(ADV_IMAGE_FOLDER):
-#     #     os.makedirs(ADV_IMAGE_FOLDER)
+    # if not os.path.exists(ADV_IMAGE_FOLDER):
+    #     os.makedirs(ADV_IMAGE_FOLDER)
 
-#     filename = path.split('/')[-3:]
-#     print('/'.join(filename))
-#     save_folder = os.path.join(ADV_IMAGE_FOLDER, '/'.join(filename[:2]))
-#     save_name = os.path.join( ADV_IMAGE_FOLDER, '/'.join(filename))
+    filename = path.split('/')[-3:]
+    print('/'.join(filename))
+    save_folder = os.path.join(ADV_IMAGE_FOLDER, '/'.join(filename[:2]))
+    save_name = os.path.join( ADV_IMAGE_FOLDER, '/'.join(filename))
 
-#     if not os.path.exists(save_folder):
-#             os.makedirs(save_folder)
+    if not os.path.exists(save_folder):
+            os.makedirs(save_folder)
 
-#     dtype = torch.DoubleTensor
-#     detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
-#     # detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
-#     x_ad = torch.tensor(x_adv)
-#     x_ad = x_ad.permute(0, 3, 2, 1)
-#     rotated_im = rot_img(x_ad, -np.pi/2, dtype)
+    dtype = torch.DoubleTensor
+    detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
+    # detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
+    x_ad = torch.tensor(x_adv)
+    x_ad = x_ad.permute(0, 3, 2, 1)
+    rotated_im = rot_img(x_ad, -np.pi/2, dtype)
 
-#     save_image(rotated_im, save_name)
+    save_image(rotated_im, save_name)
     # save_image(x_ad, save_name)
+    image = Image.open(save_name)
+    image = image.resize((640, 480))
+    image.save(save_name)
 
 
 
