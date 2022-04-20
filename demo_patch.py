@@ -245,9 +245,9 @@ for id, path in enumerate(fpaths):
     # detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
     x_ad = torch.tensor(x_adv)
     x_ad = x_ad.permute(0, 3, 2, 1)
-    # rotated_im = rot_img(x_ad, np.pi/2*3, dtype)
-    # save_image(rotated_im, save_name)
-    save_image(x_ad, save_name)
+    rotated_im = rot_img(x_ad, np.pi/1*3, dtype)
+    save_image(rotated_im, save_name)
+    # save_image(x_ad, save_name)
 
 
 
