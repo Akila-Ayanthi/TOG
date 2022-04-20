@@ -279,7 +279,7 @@ detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thres
 detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
 x_ad = torch.tensor(x_adv)
 x_ad = x_ad.permute(0, 3, 2, 1)
-rotated_im = rot_img(x_ad, -np.pi/2, dtype)
+# rotated_im = rot_img(x_ad, -np.pi/2, dtype)
 save_image(x_ad, "adv_image3.png")
 # image = Image.open("adv_image3.png")
 # # image = ImageOps.mirror(image)
