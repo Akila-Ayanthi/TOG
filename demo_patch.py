@@ -206,7 +206,7 @@ def rot_img(x, theta, dtype):
     x = F.grid_sample(x, grid)
     return x
 
-patch = np.load('/home/dissana8/TOG/Adv_images/vanishing/2022-03-09_14:51:18_person/Epoch-19_Loss-8.84_ASR-0.80.npy')
+patch = np.load('/home/dissana8/TOG/Adv_images_01/vanishing/2022-03-09_14:51:18_person/Epoch-19_Loss-8.84_ASR-0.80.npy')
 patch_rand = np.reshape(patch.copy(), newshape=(patch.shape[0]*patch.shape[1]*patch.shape[2], patch.shape[3]))
 np.random.shuffle(patch_rand)
 patch_rand = np.reshape(patch_rand, newshape=patch.shape)
@@ -245,8 +245,10 @@ for id, path in enumerate(fpaths):
     # detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
     x_ad = torch.tensor(x_adv)
     x_ad = x_ad.permute(0, 3, 2, 1)
-    rotated_im = rot_img(x_ad, np.pi/2*3, dtype)
-    save_image(rotated_im, save_name)
+    # rotated_im = rot_img(x_ad, np.pi/2*3, dtype)
+    # save_image(rotated_im, save_name)
+    save_image(x_ad, save_name)
+
 
 
 
