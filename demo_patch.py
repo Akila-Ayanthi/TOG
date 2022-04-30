@@ -281,16 +281,16 @@ detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thr
 x_ad = torch.tensor(x_adv)
 x_ad = x_ad.permute(0, 3, 2, 1)
 rotated_im = rot_img(x_ad, -np.pi/2, dtype)
-save_image(rotated_im, "adv_image3.png")
-image = Image.open("adv_image3.png")
+save_image(rotated_im, "adv_image31.png")
+image = Image.open("adv_image31.png")
 image = ImageOps.mirror(image)
 image = image.resize((640, 480))
-image.save("adv_image3.png")
+image.save("adv_image31.png")
 
 # adv_image = img.save("adv_image3.jpg")
 visualize_detections({'Benign (No Attack)': (x_query, detections_query, detector.model_img_size, detector.classes),
                       'Random Patch': (x_rand, detections_rand, detector.model_img_size, detector.classes),
-                      'TOG-vanishing Patch': (x_adv, detections_adv, detector.model_img_size, detector.classes)}, 'adv_example3.jpg')
+                      'TOG-vanishing Patch': (x_adv, detections_adv, detector.model_img_size, detector.classes)}, 'adv_example31.jpg')
 
 
 # fpath = './assets/example_4.jpg'    # TODO: Change this path to the image to be attacked
