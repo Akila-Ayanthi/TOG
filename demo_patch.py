@@ -285,7 +285,7 @@ save_image(rotated_im, "adv_image31.png")
 image = Image.open("adv_image31.png")
 image = ImageOps.mirror(image)
 image = image.resize((640, 480))
-image.save("adv_image32.png")
+image.save("adv_image33.png")
 
 # adv_image = img.save("adv_image3.jpg")
 visualize_detections({'Benign (No Attack)': (x_query, detections_query, detector.model_img_size, detector.classes),
