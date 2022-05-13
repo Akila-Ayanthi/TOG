@@ -279,7 +279,11 @@ dtype = torch.DoubleTensor
 detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thresh_default)
 print(detections_adv)
 detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
-plt.imsave("adv_plt_image.jpg", x_adv)
+
+plt.clf()
+plt.figure(figsize=(416, 416))
+plt.imshow(x_adv)
+plt.savefig("adv_plt_image.jpg")
 # image = Image.fromarray(x_adv)
 # image.save("adv_image32.png")
 # x_ad = torch.tensor(x_adv)
