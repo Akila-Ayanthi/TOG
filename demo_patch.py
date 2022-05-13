@@ -282,7 +282,7 @@ detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thr
 
 plt.clf()
 plt.figure(figsize=(416, 416))
-plt.imshow(x_adv)
+plt.imshow(x_adv[0])
 plt.savefig("adv_plt_image.jpg")
 # image = Image.fromarray(x_adv)
 # image.save("adv_image32.png")
