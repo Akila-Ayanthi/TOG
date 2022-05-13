@@ -281,9 +281,10 @@ detections_adv = detector.detect(x_adv, conf_threshold=detector.confidence_thres
 detections_rand = detector.detect(x_rand, conf_threshold=detector.confidence_thresh_default)
 
 plt.clf()
-plt.figure(figsize=(20, 20))
-plt.imshow(x_adv[0])
-plt.savefig("adv_plt_image.jpg")
+# plt.figure(figsize=(20, 20))
+# plt.imshow(x_adv[0])
+# plt.savefig("adv_plt_image.jpg")
+plt.imsave(x_adv[0])
 # image = Image.fromarray(x_adv)
 # image.save("adv_image32.png")
 # x_ad = torch.tensor(x_adv)
